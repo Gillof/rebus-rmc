@@ -35,6 +35,7 @@ dependencies {
     implementation("io.micronaut.liquibase:micronaut-liquibase")
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     implementation("io.micronaut.data:micronaut-data-jdbc")
+    implementation("org.postgresql:postgresql")
     implementation("io.micronaut.security:micronaut-security-jwt")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -47,20 +48,18 @@ application {
 }
 
 java {
-    sourceCompatibility = JavaVersion.toVersion("1.8")
+    sourceCompatibility = JavaVersion.VERSION_11
 }
 
 tasks {
     compileKotlin {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = "11"
         }
     }
     compileTestKotlin {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = "11"
         }
     }
-
-
 }
