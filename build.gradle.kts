@@ -50,7 +50,7 @@ application {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.toVersion("1.8")
 }
 
 tasks {
@@ -62,12 +62,12 @@ tasks {
     }
     compileKotlin {
         kotlinOptions {
-            jvmTarget = "11"
+            jvmTarget = "1.8"
         }
     }
     compileTestKotlin {
         kotlinOptions {
-            jvmTarget = "11"
+            jvmTarget = "1.8"
         }
     }
     build {
