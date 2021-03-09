@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.4.10"
     id("org.jetbrains.kotlin.kapt") version "1.4.10"
@@ -52,6 +54,12 @@ java {
 }
 
 tasks {
+    named<ShadowJar>("shadowJar") {
+        archiveBaseName.set("shadow")
+        archiveClassifier.set("")
+        archiveVersion.set("")
+        mergeServiceFiles()
+    }
     compileKotlin {
         kotlinOptions {
             jvmTarget = "11"
@@ -61,5 +69,8 @@ tasks {
         kotlinOptions {
             jvmTarget = "11"
         }
+    }
+    build {
+        dependsOn(shadowJar)
     }
 }

@@ -1,0 +1,6 @@
+{
+  "name": "Svampyrernas Rebusrally",
+  "description": "Svampyrernas Rebusrally",
+  "image": "heroku/gradle",
+  "addons": [ "heroku-postgresql" ]
+}
