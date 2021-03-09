@@ -1,1 +1,1 @@
-web: java ${JAVA_OPTS} -jar service.jar
+web: java ${JAVA_OPTS} -jar build/libs/service.jar

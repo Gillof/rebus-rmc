@@ -55,7 +55,7 @@ java {
 
 tasks {
     named<ShadowJar>("shadowJar") {
-        archiveBaseName.set("shadow")
+        archiveBaseName.set("service")
         archiveClassifier.set("")
         archiveVersion.set("")
         mergeServiceFiles()
