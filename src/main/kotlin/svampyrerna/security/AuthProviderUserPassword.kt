@@ -8,18 +8,22 @@ import io.micronaut.security.authentication.UserDetails
 import org.reactivestreams.Publisher
 import svampyrerna.repositories.TeamsRepository
 import javax.annotation.Nullable
+import javax.inject.Inject
 import javax.inject.Singleton
 
 
 @Singleton
-class AuthenticationProviderUserPassword(private val usersRepo: TeamsRepository) : AuthenticationProvider {
+class AuthProviderUserPassword @Inject constructor(private val usersRepo: TeamsRepository) : AuthenticationProvider {
     override fun authenticate(
             @Nullable httpRequest: HttpRequest<*>?,
             authenticationRequest: AuthenticationRequest<*, *>
     ): Publisher<AuthenticationResponse> {
         return usersRepo.findByName(authenticationRequest.identity as String)
                 .filter { it.secret == authenticationRequest.secret }
-                .map { _ -> UserDetails(authenticationRequest.identity as String, mutableListOf()) as AuthenticationResponse }
+                .map { team -> UserDetails(
+                        authenticationRequest.identity as String,
+                        mutableListOf(team.role).filterNotNull().map { it.name }) as AuthenticationResponse
+                }
                 .toFlowable()
     }
 }

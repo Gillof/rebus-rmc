@@ -25,6 +25,13 @@ micronaut {
     }
 }
 
+kapt {
+    arguments {
+        arg("micronaut.processing.incremental", true)
+        arg("micronaut.processing.annotations", "svampyrerna.*")
+    }
+}
+
 dependencies {
     kapt("io.micronaut.data:micronaut-data-processor")
     kapt("io.micronaut.security:micronaut-security-annotations")
@@ -37,16 +44,17 @@ dependencies {
     implementation("io.micronaut.liquibase:micronaut-liquibase")
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     implementation("io.micronaut.data:micronaut-data-jdbc")
+    implementation("io.micronaut.views:micronaut-views-velocity")
     implementation("org.postgresql:postgresql")
     implementation("io.micronaut.security:micronaut-security-jwt")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
-    runtimeOnly("com.h2database:h2")
+    testRuntimeOnly("com.h2database:h2")
 }
 
 
 application {
-    mainClass.set("svampyrerna.ApplicationKt")
+    mainClass.set("svampyrerna.Application")
 }
 
 java {

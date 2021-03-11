@@ -9,5 +9,6 @@ data class TeamEntity(
         @field:Id
         val id: UUID,
         val name: String,
-        val secret: String
+        val secret: String,
+        val role: TeamRole?
 )
