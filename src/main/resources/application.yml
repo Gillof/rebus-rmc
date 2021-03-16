@@ -3,6 +3,15 @@ micronaut:
     name: svampyrerna
   security:
     authentication: cookie
+    interceptUrlMap:
+      - pattern: "/swagger/**"
+        httpMethod: GET
+        access:
+          - isAnonymous()
+      - pattern: "/swagger-ui/**"
+        httpMethod: GET
+        access:
+          - isAnonymous()
     redirect:
       login-failure: /login/authFailed
     token:
@@ -11,6 +20,14 @@ micronaut:
           secret:
             generator:
               secret: '"${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}"'
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**
+      swagger-ui:
+        paths: classpath:META-INF/swagger/views/swagger-ui
+        mapping: /swagger-ui/**
 
 datasources:
   default:

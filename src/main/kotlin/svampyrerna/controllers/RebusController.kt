@@ -9,6 +9,7 @@ import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.swagger.v3.oas.annotations.tags.Tag
 import svampyrerna.domain.AdminOverview
 import svampyrerna.domain.TeamDTO
 import svampyrerna.domain.TeamRebusDTO
@@ -16,6 +17,7 @@ import svampyrerna.domain.UnlockRequest
 import svampyrerna.security.AuthHelper
 import svampyrerna.services.RebusService
 
+@Tag(name = "API")
 @Secured(SecurityRule.IS_AUTHENTICATED)
 @Controller("/api")
 class RebusController(

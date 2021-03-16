@@ -29,12 +29,15 @@ kapt {
     arguments {
         arg("micronaut.processing.incremental", true)
         arg("micronaut.processing.annotations", "svampyrerna.*")
+        arg("micronaut.openapi.views.spec", "swagger-ui.enabled=true,swagger-ui.theme=flattop")
     }
 }
 
 dependencies {
     kapt("io.micronaut.data:micronaut-data-processor")
     kapt("io.micronaut.security:micronaut-security-annotations")
+    kapt("io.micronaut.openapi:micronaut-openapi")
+    implementation("io.micronaut.openapi:micronaut-openapi")
     implementation("io.micronaut:micronaut-validation")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
@@ -47,6 +50,7 @@ dependencies {
     implementation("io.micronaut.views:micronaut-views-velocity")
     implementation("org.postgresql:postgresql")
     implementation("io.micronaut.security:micronaut-security-jwt")
+    implementation("io.swagger.core.v3:swagger-annotations")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     testRuntimeOnly("com.h2database:h2")

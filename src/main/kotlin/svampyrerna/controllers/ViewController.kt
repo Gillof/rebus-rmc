@@ -8,8 +8,10 @@ import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
 import io.micronaut.views.View
+import io.swagger.v3.oas.annotations.tags.Tag
 import java.util.*
 
+@Tag(name = "Views")
 @Secured(SecurityRule.IS_ANONYMOUS)
 @Controller("/")
 class ViewController {
