@@ -1,0 +1,1 @@
+ALTER TABLE unlocks ADD CONSTRAINT unlock_unique_constraint UNIQUE (team_id, rebus_id, type);

@@ -20,9 +20,12 @@ class AuthProviderUserPassword @Inject constructor(private val usersRepo: TeamsR
     ): Publisher<AuthenticationResponse> {
         return usersRepo.findByName(authenticationRequest.identity as String)
                 .filter { it.secret == authenticationRequest.secret }
-                .map { team -> UserDetails(
-                        authenticationRequest.identity as String,
-                        mutableListOf(team.role).filterNotNull().map { it.name }) as AuthenticationResponse
+                .map { team ->
+                    UserDetails(
+                            team.name,
+                            mutableListOf(team.role).filterNotNull().map { it.name },
+                            hashMapOf("teamId" to team.id.toString()) as Map<String, Any>?
+                    ) as AuthenticationResponse
                 }
                 .toFlowable()
     }
