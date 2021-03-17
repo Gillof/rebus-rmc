@@ -32,6 +32,15 @@ micronaut:
       swagger-ui:
         paths: classpath:META-INF/swagger/views/swagger-ui
         mapping: /swagger-ui/**
+  server:
+    cors:
+      enabled: true
+      single-header: true
+      configurations:
+        all:
+          allowedOrigins:
+            - https:\/\/([A-Za-z0-9\-_]*\\.)*herokuapp.com
+            - http(s)?:\/\/localhost(:[0-9]*)?
 
 datasources:
   default:
