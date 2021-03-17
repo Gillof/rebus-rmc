@@ -1,4 +1,8 @@
 micronaut:
+  http:
+    services:
+      ping:
+        url: "${PING_URL}"
   application:
     name: svampyrerna
   security:
@@ -39,3 +43,11 @@ liquibase:
   datasources:
     default:
       change-log: 'classpath:liquibase-changelog.yml'
+
+endpoints:
+  health:
+    enabled: true
+    sensitive: false
+
+ping:
+  enabled: false
