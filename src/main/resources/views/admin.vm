@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table,th,td {
+            border: 1px solid lightgrey;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Overview</h1>
+    <table>
+        <tr>
+            <th>Lag</th>
+            <th>Rebus</th>
+            <th>Ledning</th>
+            <th>Lösning</th>
+        </tr>
+        #foreach($teamRebus in $data)
+            #foreach($rebus in $teamRebus.rebus)
+            <tr>
+                <td>$teamRebus.team.name</td>
+                <td>$rebus.nr</td>
+                <td>#if($rebus.hint) Ja #else Nej #end</td>
+                <td>#if($rebus.Answer) Ja #else Nej #end</td>
+            #end
+        #end
+</body>
+</html>

@@ -17,6 +17,9 @@
 <body>
     #if( $loggedIn )
     <h1>Team: <span>$data.team.name</span></h1>
+    #if( $data.team.role == "ADMIN" )
+        <p><a href="/admin">Admin</a></p>
+    #end
     <table>
         <tr>
             <th>Rebus</th>

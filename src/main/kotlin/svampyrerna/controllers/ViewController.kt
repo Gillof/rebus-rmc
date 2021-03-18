@@ -27,14 +27,14 @@ class ViewController(
     @Produces(MediaType.TEXT_HTML)
     @Get
     @View("home")
-    fun index(principal: Authentication?): Single<Map<String, Any>> {
+    fun index(auth: Authentication?): Single<Map<String, Any>> {
         val data: MutableMap<String, Any> = HashMap()
-        data["loggedIn"] = principal != null
-        return if (principal != null) {
-            val teamId = AuthHelper.getTeamId(principal)
+        data["loggedIn"] = auth != null
+        return if (auth != null) {
+            val teamId = AuthHelper.getTeamId(auth)
             rebusService.rebuses(teamId)
                 .toList()
-                .map { rebus -> TeamRebusDTO(TeamDTO(teamId, principal.name), rebus) }
+                .map { rebus -> TeamRebusDTO(TeamDTO(teamId, auth.name, AuthHelper.getAdminRole(auth)), rebus) }
                 .map { d -> data["data"] = d; data }
         } else {
             Single.just(data);
@@ -53,6 +53,15 @@ class ViewController(
     @View("auth")
     fun authFailed(): Map<String, Any> {
         return Collections.singletonMap<String, Any>("errors", true)
+    }
+
+    @Produces(MediaType.TEXT_HTML)
+    @Get("/admin")
+    @View("admin")
+    @Secured("ADMIN")
+    fun admin(auth: Authentication): Single<Map<String, Any>> {
+        return rebusService.getTeamOverview().toList()
+            .map { mapOf("data" to it) }
     }
 
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)

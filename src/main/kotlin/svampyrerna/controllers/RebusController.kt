@@ -27,7 +27,7 @@ class RebusController(
         val teamId = AuthHelper.getTeamId(auth)
         return rebusService.rebuses(teamId)
                 .toList()
-                .map { TeamRebusDTO(TeamDTO(teamId, auth.name), it) }
+                .map { TeamRebusDTO(TeamDTO(teamId, auth.name, AuthHelper.getAdminRole(auth)), it) }
     }
 
     @Consumes(MediaType.APPLICATION_JSON, MediaType.APPLICATION_FORM_URLENCODED)

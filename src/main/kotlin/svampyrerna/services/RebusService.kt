@@ -54,7 +54,7 @@ class RebusService(
         return teamsRepository.findAll()
                 .flatMapSingle { team -> rebuses(team.id)
                         .toList()
-                        .map { rebuses -> TeamRebusDTO(TeamDTO(team.id, team.name), rebuses) }
+                        .map { rebuses -> TeamRebusDTO(TeamDTO(team.id, team.name, team.role), rebuses) }
                 }
     }
 }
