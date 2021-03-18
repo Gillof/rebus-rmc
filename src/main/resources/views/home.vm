@@ -1,20 +1,67 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Home</title>
-    </head>
-    <body>
-        #if( $loggedIn )
-            <h1>username: <span>$username</span></h1>
-        #else
-            <h1>You are not logged in</h1>
+<head>
+    <title>Home</title>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table,th,td {
+            border: 1px solid lightgrey;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    #if( $loggedIn )
+    <h1>Team: <span>$data.team.name</span></h1>
+    <table>
+        <tr>
+            <th>Rebus</th>
+            <th>Ledning</th>
+            <th>Lösning</th>
+        </tr>
+        #foreach($rebus in $data.rebus)
+            <tr>
+                <td>$rebus.nr</td>
+                #if( $rebus.hint )
+                    <td>$rebus.hint</td>
+                #else
+                    <td>
+                        <form action="/unlock" method="POST"
+                              onsubmit="return confirm('Att se ledningen innebär extra tidstillägg. Är du säker på att du vill se ledningen?');">
+                            <input type="hidden" name="rebusId" value="$rebus.id"/>
+                            <input type="hidden" name="unlockType" value="HINT"/>
+                            <input type="submit" value="Se ledning"/>
+                        </form>
+                    </td>
+                #end
+                #if( $rebus.answer )
+                    <td>$rebus.answer</td>
+                #else
+                    <td>
+                        <form action="/unlock" method="POST"
+                              onsubmit="return confirm('Att se svaret innebär extra tidstillägg. Är du säker på att du vill se svaret?');">
+                            <input type="hidden" name="rebusId" value="$rebus.id"/>
+                            <input type="hidden" name="unlockType" value="ANSWER"/>
+                            <input type="submit" value="Se svar"/>
+                        </form>
+                    </td>
+                #end
+            </tr>
         #end
-        #if( $loggedIn )
-            <form action="logout" method="POST">
-                <input type="submit" value="Logout"/>
-            </form>
-        #else
-            <p><a href="/auth">Login</a></p>
-        #end
-    </body>
+    </table>
+    #else
+    <h1>You are not logged in</h1>
+    #end
+    #if( $loggedIn )
+    <form action="logout" method="POST">
+        <input type="submit" value="Logout"/>
+    </form>
+    #else
+    <p><a href="/auth">Login</a></p>
+    #end
+</body>
 </html>

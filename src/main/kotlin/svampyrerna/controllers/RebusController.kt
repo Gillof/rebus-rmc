@@ -1,9 +1,7 @@
 package svampyrerna.controllers
 
-import io.micronaut.http.annotation.Body
-import io.micronaut.http.annotation.Controller
-import io.micronaut.http.annotation.Get
-import io.micronaut.http.annotation.Post
+import io.micronaut.http.MediaType
+import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
@@ -32,8 +30,9 @@ class RebusController(
                 .map { TeamRebusDTO(TeamDTO(teamId, auth.name), it) }
     }
 
+    @Consumes(MediaType.APPLICATION_JSON, MediaType.APPLICATION_FORM_URLENCODED)
     @Post("unlock")
-    fun getRebuses(auth: Authentication, @Body unlockReq: UnlockRequest): Completable {
+    fun unlock(auth: Authentication, @Body unlockReq: UnlockRequest): Completable {
         val teamId = AuthHelper.getTeamId(auth)
         return rebusService.unlock(teamId, unlockReq.rebusId, unlockReq.unlockType)
                 .ignoreElement()
