@@ -15,10 +15,18 @@
             border: 1px solid lightgrey;
             padding: 10px;
         }
+        .logo {
+            background-image: url(/public/Svmpyrlogga.png);
+            height: 200px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
     </style>
 </head>
 <body>
 <div class="container">
+    <div class="container logo"></div>
     <h1>Svampyrernas Rally Montecarl 2021</h1>
     #if( $loggedIn )
     <h2>Välkomna, ${data.team.name}!</h2>

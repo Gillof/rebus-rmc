@@ -16,6 +16,10 @@ micronaut:
         httpMethod: GET
         access:
           - isAnonymous()
+      - pattern: "/public/**"
+        httpMethod: GET
+        access:
+          - isAnonymous()
     redirect:
       login-failure: /login/authFailed
     token:
@@ -28,6 +32,9 @@ micronaut:
           cookie-same-site: none
   router:
     static-resources:
+      public:
+        paths: classpath:public
+        mapping: /public/**
       swagger:
         paths: classpath:META-INF/swagger
         mapping: /swagger/**
