@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
     #if( $errors )
         <title>Login Failed</title>
     #else
@@ -8,25 +12,27 @@
     #end
 </head>
 <body>
-<form action="/login" method="POST">
-    <ol>
-        <li>
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username"/>
-        </li>
-        <li>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password"/>
-        </li>
-        <li>
-            <input type="submit" value="Login"/>
-        </li>
+<div class="container">
+    <h1>Logga in</h1>
+    <form action="/login" method="POST">
+        <div class="form-group">
+
+            <label for="username">Användarnamn</label>
+            <input class="form-control" type="text" name="username" id="username"/>
+        </div>
+        <div class="form-group">
+            <label for="password">Lösenord</label>
+            <input class="form-control" type="password" name="password" id="password"/>
+        </div>
+
+        <button type="submit" class="btn btn-default">Logga in</button>
+
         #if( $errors )
-            <li id="errors">
-                <span style="color: #ff0000;">Login Failed</span>
-            </li>
+            <div class="form-group">
+                <span style="color: #ff0000;">Inloggning misslyckades</span>
+            </div>
         #end
-    </ol>
-</form>
+    </form>
+</div>
 </body>
 </html>

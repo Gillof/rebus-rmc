@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Home</title>
+    <title>Svampyrernas Rally Montecarl</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
     <style>
         table {
             border-collapse: collapse;
@@ -15,12 +18,14 @@
     </style>
 </head>
 <body>
+<div class="container">
+    <h1>Svampyrernas Rally Montecarl 2021</h1>
     #if( $loggedIn )
-    <h1>Team: <span>$data.team.name</span></h1>
+    <h2>Välkomna, ${data.team.name}!</h2>
     #if( $data.team.role == "ADMIN" )
         <p><a href="/admin">Admin</a></p>
     #end
-    <table>
+    <table class="table">
         <tr>
             <th>Rebus</th>
             <th>Ledning</th>
@@ -57,14 +62,15 @@
         #end
     </table>
     #else
-    <h1>You are not logged in</h1>
+    <h3>Du är inte inloggad</h3>
     #end
     #if( $loggedIn )
     <form action="logout" method="POST">
-        <input type="submit" value="Logout"/>
+        <input type="submit" value="Logga ut"/>
     </form>
     #else
-    <p><a href="/auth">Login</a></p>
+    <p><a href="/auth">Logga in</a></p>
     #end
+</div>
 </body>
 </html>
