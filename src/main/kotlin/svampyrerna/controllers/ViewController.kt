@@ -94,8 +94,8 @@ class ViewController(
     @Secured("ADMIN")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     fun deleteRebus(auth: Authentication, @Body deleteRebusRequest: DeleteRebusRequest): HttpResponse<Any> {
-        rebusRepository.deleteById(deleteRebusRequest.rebusId)
         unlockRepository.deleteByRebusId(deleteRebusRequest.rebusId)
+        rebusRepository.deleteById(deleteRebusRequest.rebusId)
         return redirectToAdmin()
     }
 
@@ -118,8 +118,8 @@ class ViewController(
     @Secured("ADMIN")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     fun deleteTeam(auth: Authentication, @Body deleteTeamRequest: DeleteTeamRequest): HttpResponse<Any> {
-        teamsRepository.deleteById(deleteTeamRequest.teamId)
         unlockRepository.deleteByTeamId(deleteTeamRequest.teamId)
+        teamsRepository.deleteById(deleteTeamRequest.teamId)
         return redirectToAdmin()
     }
 
