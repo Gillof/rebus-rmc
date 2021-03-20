@@ -1,12 +1,11 @@
 package svampyrerna.controllers
 
+import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
-import io.reactivex.Completable
-import io.reactivex.Single
 import io.swagger.v3.oas.annotations.tags.Tag
 import svampyrerna.domain.AdminOverview
 import svampyrerna.domain.TeamDTO
@@ -23,27 +22,23 @@ class RebusController(
 ) {
 
     @Get("rebus")
-    fun getRebuses(auth: Authentication): Single<TeamRebusDTO> {
+    fun getRebuses(auth: Authentication): TeamRebusDTO {
         val teamId = AuthHelper.getTeamId(auth)
-        return rebusService.rebuses(teamId)
-                .toList()
-                .map { TeamRebusDTO(TeamDTO(teamId, auth.name, AuthHelper.getAdminRole(auth)), it) }
+        return TeamRebusDTO(TeamDTO(teamId, auth.name, AuthHelper.getAdminRole(auth)), rebusService.rebuses(teamId))
     }
 
     @Consumes(MediaType.APPLICATION_JSON, MediaType.APPLICATION_FORM_URLENCODED)
     @Post("unlock")
-    fun unlock(auth: Authentication, @Body unlockReq: UnlockRequest): Completable {
+    fun unlock(auth: Authentication, @Body unlockReq: UnlockRequest): HttpResponse<*> {
         val teamId = AuthHelper.getTeamId(auth)
-        return rebusService.unlock(teamId, unlockReq.rebusId, unlockReq.unlockType)
-                .ignoreElement()
+        rebusService.unlock(teamId, unlockReq.rebusId, unlockReq.unlockType)
+        return HttpResponse.noContent<Any>()
     }
 
     @Get("admin")
     @Secured("ADMIN")
-    fun getAdminOverview(): Single<AdminOverview> {
-        return rebusService.getTeamOverview()
-                .toList()
-                .map { AdminOverview(it) }
+    fun getAdminOverview(): AdminOverview {
+        return AdminOverview(rebusService.getTeamOverview())
     }
 
 }

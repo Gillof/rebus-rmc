@@ -21,22 +21,114 @@
 <body>
 <div class="container">
     <h1>Admin Overview</h1>
-    <table class="table">
-        <tr>
-            <th>Lag</th>
-            <th>Rebus</th>
-            <th>Ledning</th>
-            <th>Lösning</th>
-        </tr>
-        #foreach($teamRebus in $data)
-            #foreach($rebus in $teamRebus.rebus)
+    <div class="col-md-6">
+        <h3>Hantera rebus</h3>
+        <table class="table">
             <tr>
-                <td>$teamRebus.team.name</td>
-                <td>$rebus.nr</td>
-                <td>#if($rebus.hint) Ja #else Nej #end</td>
-                <td>#if($rebus.Answer) Ja #else Nej #end</td>
+                <th>Rebus</th>
+                <th>Ledning</th>
+                <th>Lösning</th>
+                <th></th>
+            </tr>
+            #foreach($rebusEntity in $rebusList)
+                <tr>
+                    <td>$rebusEntity.nr</td>
+                    <td>$rebusEntity.hint</td>
+                    <td>$rebusEntity.answer</td>
+                    <td>
+                        <form action="/admin/rebus/delete" method="POST"
+                              onsubmit="return confirm('Detta kommer att ta bort rebusen för alla lag. Är du säker på detta?');">
+                            <input type="hidden" name="rebusId" value="$rebusEntity.id">
+                            <button type="submit" class="btn btn-default" aria-label="Delete">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
             #end
-        #end
+        </table>
+        <form class="form-inline" action="/admin/rebus" method="POST">
+            <div class="form-group">
+                <label class="sr-only" for="rebusNr">Nr</label>
+                <input type="number" class="form-control" name="nr" id="rebusNr" placeholder="Nr">
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="rebusHint">Ledning</label>
+                <input type="text" class="form-control" name="hint" id="rebusHint" placeholder="Ledning">
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="rebusAnswer">Lösning</label>
+                <input type="text" class="form-control" name="answer" id="rebusAnswer"
+                       placeholder="Lösning">
+            </div>
+            <button type="submit" class="btn btn-primary">Lägg till rebus</button>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <h3>Hantera lag</h3>
+        <table class="table">
+            <tr>
+                <th>Lag</th>
+                <th>Lösenord</th>
+                <th>Roll</th>
+                <th></th>
+            </tr>
+            #foreach($team in $teamList)
+                <tr>
+                    <td>$team.name</td>
+                    <td>$team.secret</td>
+                    <td>#if($team.role) $team.role #end</td>
+                    <td>
+                        <form action="/admin/team/delete" method="POST"
+                              onsubmit="return confirm('Detta kommer att ta bort laget. Är du säker på detta?');">
+                            <input type="hidden" name="teamId" value="$team.id">
+                            <button type="submit" class="btn btn-default" aria-label="Delete">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            #end
+        </table>
+        <form class="form-inline" action="/admin/team" method="POST">
+            <div class="form-group">
+                <label class="sr-only" for="teamName">Namn</label>
+                <input type="text" class="form-control" name="name" id="teamName" placeholder="Namn">
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="teamSecret">Lösenord</label>
+                <input type="text" class="form-control" name="secret" id="teamSecret"
+                       placeholder="Lösenord">
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="role" value="ADMIN"> Admin
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Lägg till lag</button>
+        </form>
+    </div>
+    <div class="col-md-12">
+        <h3>Lagstatus</h3>
+        <table class="table">
+            <tr>
+                <th>Lag</th>
+                <th>Rebus</th>
+                <th>Ledning</th>
+                <th>Lösning</th>
+            </tr>
+            #foreach($teamRebus in $data)
+                #foreach($rebus in $teamRebus.rebus)
+                    <tr>
+                        <td>$teamRebus.team.name</td>
+                        <td>$rebus.nr</td>
+                        <td>#if($rebus.hint) Ja #else Nej #end</td>
+                        <td>#if($rebus.Answer) Ja #else Nej #end</td>
+                    </tr>
+                #end
+            #end
+        </table>
+    </div>
 </div>
 </body>
 </html>

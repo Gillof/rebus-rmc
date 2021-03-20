@@ -1,7 +1,5 @@
 package svampyrerna.services
 
-import io.reactivex.Flowable
-import io.reactivex.Single
 import svampyrerna.domain.RebusDTO
 import svampyrerna.domain.TeamDTO
 import svampyrerna.domain.TeamRebusDTO
@@ -16,10 +14,9 @@ class RebusService(
         private val teamsRepository: TeamsRepository,
 ) {
 
-    fun rebuses(teamId: UUID): Flowable<RebusDTO> {
+    fun rebuses(teamId: UUID): List<RebusDTO> {
         return unlockRepo.findByTeamId(teamId)
-                .toList()
-                .flatMapPublisher { unlocks ->
+            .let { unlocks ->
                     rebusRepo.findAll()
                             .map { rebus ->
                                 RebusDTO(
@@ -33,7 +30,7 @@ class RebusService(
                 }
     }
 
-    fun unlock(teamId: UUID, rebusId: UUID, unlockType: UnlockType): Single<UnlockEntity> {
+    fun unlock(teamId: UUID, rebusId: UUID, unlockType: UnlockType): UnlockEntity {
         return unlockRepo.save(
                 UnlockEntity(
                         UUID.randomUUID(),
@@ -50,11 +47,10 @@ class RebusService(
                 ?.let { true } ?: false
     }
 
-    fun getTeamOverview(): Flowable<TeamRebusDTO> {
+    fun getTeamOverview(): List<TeamRebusDTO> {
         return teamsRepository.findAll()
-                .flatMapSingle { team -> rebuses(team.id)
-                        .toList()
-                        .map { rebuses -> TeamRebusDTO(TeamDTO(team.id, team.name, team.role), rebuses) }
+                .map { team ->
+                    TeamRebusDTO(TeamDTO(team.id, team.name, team.role), rebuses(team.id))
                 }
     }
 }

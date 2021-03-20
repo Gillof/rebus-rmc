@@ -8,11 +8,10 @@ import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
 import io.micronaut.views.View
-import io.reactivex.Single
 import io.swagger.v3.oas.annotations.tags.Tag
-import svampyrerna.domain.TeamDTO
-import svampyrerna.domain.TeamRebusDTO
-import svampyrerna.domain.UnlockRequest
+import svampyrerna.controllers.ViewController.ViewController.redirectToAdmin
+import svampyrerna.domain.*
+import svampyrerna.repositories.*
 import svampyrerna.security.AuthHelper
 import svampyrerna.services.RebusService
 import java.util.*
@@ -22,22 +21,23 @@ import java.util.*
 @Controller("/")
 class ViewController(
     private val rebusService: RebusService,
+    private val teamsRepository: TeamsRepository,
+    private val rebusRepository: RebusRepository,
+    private val unlockRepository: UnlockRepository
 ) {
 
     @Produces(MediaType.TEXT_HTML)
     @Get
     @View("home")
-    fun index(auth: Authentication?): Single<Map<String, Any>> {
+    fun index(auth: Authentication?): Map<String, Any> {
         val data: MutableMap<String, Any> = HashMap()
         data["loggedIn"] = auth != null
         return if (auth != null) {
             val teamId = AuthHelper.getTeamId(auth)
-            rebusService.rebuses(teamId)
-                .toList()
-                .map { rebus -> TeamRebusDTO(TeamDTO(teamId, auth.name, AuthHelper.getAdminRole(auth)), rebus) }
-                .map { d -> data["data"] = d; data }
+            TeamRebusDTO(TeamDTO(teamId, auth.name, AuthHelper.getAdminRole(auth)), rebusService.rebuses(teamId))
+                .let { d -> data["data"] = d; data }
         } else {
-            Single.just(data);
+            data
         }
     }
 
@@ -55,20 +55,75 @@ class ViewController(
         return Collections.singletonMap<String, Any>("errors", true)
     }
 
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Post("/unlock")
+    fun unlock(auth: Authentication, @Body unlockReq: UnlockRequest): HttpResponse<Any> {
+        val teamId = AuthHelper.getTeamId(auth)
+        rebusService.unlock(teamId, unlockReq.rebusId, unlockReq.unlockType)
+        return HttpResponse.seeOther<Any>(UriBuilder.of("/").build())
+    }
+
     @Produces(MediaType.TEXT_HTML)
     @Get("/admin")
     @View("admin")
     @Secured("ADMIN")
-    fun admin(auth: Authentication): Single<Map<String, Any>> {
-        return rebusService.getTeamOverview().toList()
-            .map { mapOf("data" to it) }
+    fun admin(auth: Authentication): Map<String, Any> {
+        return mapOf(
+            "data" to rebusService.getTeamOverview().toList(),
+            "rebusList" to rebusRepository.findAll().toList(),
+            "teamList" to teamsRepository.findAll().toList()
+        )
     }
 
+    @Post("/admin/rebus")
+    @Secured("ADMIN")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Post("/unlock")
-    fun unlock(auth: Authentication, @Body unlockReq: UnlockRequest): Single<HttpResponse<*>> {
-        val teamId = AuthHelper.getTeamId(auth)
-        return rebusService.unlock(teamId, unlockReq.rebusId, unlockReq.unlockType)
-            .map { HttpResponse.seeOther<Any>(UriBuilder.of("/").build()) }
+    fun newRebus(auth: Authentication, @Body newRebusRequest: NewRebusRequest): HttpResponse<Any> {
+        rebusRepository.save(
+            RebusEntity(
+                id = UUID.randomUUID(),
+                nr = newRebusRequest.nr,
+                hint = newRebusRequest.hint,
+                answer = newRebusRequest.answer
+            )
+        )
+        return redirectToAdmin()
+    }
+
+    @Post("/admin/rebus/delete")
+    @Secured("ADMIN")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    fun deleteRebus(auth: Authentication, @Body deleteRebusRequest: DeleteRebusRequest): HttpResponse<Any> {
+        rebusRepository.deleteById(deleteRebusRequest.rebusId)
+        unlockRepository.deleteByRebusId(deleteRebusRequest.rebusId)
+        return redirectToAdmin()
+    }
+
+    @Post("/admin/team")
+    @Secured("ADMIN")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    fun newTeam(auth: Authentication, @Body newTeamRequest: NewTeamRequest): HttpResponse<Any> {
+        teamsRepository.save(
+            TeamEntity(
+                id = UUID.randomUUID(),
+                name = newTeamRequest.name,
+                secret = newTeamRequest.secret,
+                role = newTeamRequest.role
+            )
+        )
+        return redirectToAdmin()
+    }
+
+    @Post("/admin/team/delete")
+    @Secured("ADMIN")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    fun deleteTeam(auth: Authentication, @Body deleteTeamRequest: DeleteTeamRequest): HttpResponse<Any> {
+        teamsRepository.deleteById(deleteTeamRequest.teamId)
+        unlockRepository.deleteByTeamId(deleteTeamRequest.teamId)
+        return redirectToAdmin()
+    }
+
+    object ViewController {
+        fun redirectToAdmin(): HttpResponse<Any> = HttpResponse.seeOther(UriBuilder.of("/admin").build())
     }
 }

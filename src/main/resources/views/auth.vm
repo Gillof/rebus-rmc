@@ -16,7 +16,6 @@
     <h1>Logga in</h1>
     <form action="/login" method="POST">
         <div class="form-group">
-
             <label for="username">Användarnamn</label>
             <input class="form-control" type="text" name="username" id="username"/>
         </div>
