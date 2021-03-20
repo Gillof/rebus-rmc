@@ -47,10 +47,10 @@
                 #else
                     <td>
                         <form action="/unlock" method="POST"
-                              onsubmit="return confirm('Att se ledningen innebär extra tidstillägg. Är du säker på att du vill se ledningen?');">
+                              onsubmit="return confirm('Att se ledningen innebär extra prickbelastning. Är du säker på att du vill se ledningen?');">
                             <input type="hidden" name="rebusId" value="$rebus.id"/>
                             <input type="hidden" name="unlockType" value="HINT"/>
-                            <input type="submit" value="Se ledning"/>
+                            <button type="submit" class="btn btn-default">Se ledning</button>
                         </form>
                     </td>
                 #end
@@ -59,10 +59,10 @@
                 #else
                     <td>
                         <form action="/unlock" method="POST"
-                              onsubmit="return confirm('Att se svaret innebär extra tidstillägg. Är du säker på att du vill se svaret?');">
+                              onsubmit="return confirm('Att se lösningen innebär extra prickbelastning. Är du säker på att du vill se lösningen?');">
                             <input type="hidden" name="rebusId" value="$rebus.id"/>
                             <input type="hidden" name="unlockType" value="ANSWER"/>
-                            <input type="submit" value="Se svar"/>
+                            <button type="submit" class="btn btn-default">Se lösning</button>
                         </form>
                     </td>
                 #end
@@ -74,7 +74,7 @@
     #end
     #if( $loggedIn )
     <form action="logout" method="POST">
-        <input type="submit" value="Logga ut"/>
+        <button type="submit" class="btn btn-default">Logga ut</button>
     </form>
     #else
     <p><a href="/auth">Logga in</a></p>
