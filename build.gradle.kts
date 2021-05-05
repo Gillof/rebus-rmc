@@ -9,7 +9,7 @@ plugins {
 }
 
 version = "0.1"
-group = "svampyrerna"
+group = "rally.montecarl"
 
 val kotlinVersion=project.properties.get("kotlinVersion")
 repositories {

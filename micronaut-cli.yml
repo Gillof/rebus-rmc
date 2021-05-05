@@ -1,5 +1,5 @@
 applicationType: default
-defaultPackage: svampyrerna
+defaultPackage: rally.montecarl
 testFramework: junit
 sourceLanguage: kotlin
 buildTool: gradle_kotlin
