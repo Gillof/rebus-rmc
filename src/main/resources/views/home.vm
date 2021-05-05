@@ -4,7 +4,7 @@
 <body>
 <div class="container">
     <div class="container logo"></div>
-    <h1>Svampyrernas Rally Montecarl 2021</h1>
+    <h1>Svampyrernas Rally Monte Carl 2021</h1>
     #if( $loggedIn )
     <h2>Välkomna, ${data.team.name}!</h2>
     #if( $data.team.role == "ADMIN" )
