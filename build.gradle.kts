@@ -21,14 +21,14 @@ micronaut {
     testRuntime("junit5")
     processing {
         incremental(true)
-        annotations("svampyrerna.*")
+        annotations("rally.montecarl.*")
     }
 }
 
 kapt {
     arguments {
         arg("micronaut.processing.incremental", true)
-        arg("micronaut.processing.annotations", "svampyrerna.*")
+        arg("micronaut.processing.annotations", "rally.montecarl.*")
         arg("micronaut.openapi.views.spec", "swagger-ui.enabled=true,swagger-ui.theme=flattop")
     }
 }
@@ -58,7 +58,7 @@ dependencies {
 
 
 application {
-    mainClass.set("svampyrerna.Application")
+    mainClass.set("rally.montecarl.Application")
 }
 
 java {

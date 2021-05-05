@@ -4,7 +4,7 @@ micronaut:
       ping:
         url: "${PING_URL}"
   application:
-    name: svampyrerna
+    name: rallymontecarl
   security:
     authentication: cookie
     interceptUrlMap:
