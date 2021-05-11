@@ -1,3 +1,6 @@
+# Rally Monte Carl Rebus Site
+The purpose of this application is to provide a digital solution for teams participating in the Rally Monte Carl 
+rebus rally to get hinds and solutions to rebuses along the way.
 
 
 ## Open Source
@@ -10,7 +13,7 @@
 - [Micronaut Guides](https://guides.micronaut.io/index.html)
 ---
 
-#### Feature liquibase documentation
+### Feature liquibase documentation
 
 - [Micronaut Liquibase Database Migration documentation](https://micronaut-projects.github.io/micronaut-liquibase/latest/guide/index.html)
 
@@ -32,3 +35,5 @@
 
 - [Micronaut HTTP Client documentation](https://docs.micronaut.io/latest/guide/index.html#httpClient)
 
+### Feature micronaut-views-velocity documentation
+- [Micronaut Views Velocity](https://micronaut-projects.github.io/micronaut-views/latest/guide/#velocity)
