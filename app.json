@@ -1,6 +1,6 @@
 {
-  "name": "Svampyrernas Rebusrally",
-  "description": "Svampyrernas Rebusrally",
+  "name": "Rally Monte Carl Rebus",
+  "description": "Rally Monte Carl Rebus",
   "image": "heroku/gradle",
   "addons": [ "heroku-postgresql" ]
 }
