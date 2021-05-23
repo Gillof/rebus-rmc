@@ -57,5 +57,6 @@
     <p><a href="/auth">Logga in</a></p>
     #end
 </div>
+#parse("/views/footer.vm")
 </body>
 </html>

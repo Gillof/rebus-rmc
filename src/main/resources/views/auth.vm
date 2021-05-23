@@ -23,5 +23,6 @@
         #end
     </form>
 </div>
+#parse("/views/footer.vm")
 </body>
 </html>

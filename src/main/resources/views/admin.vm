@@ -113,5 +113,6 @@
         </table>
     </div>
 </div>
+#parse("/views/footer.vm")
 </body>
 </html>

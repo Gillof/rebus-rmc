@@ -24,5 +24,9 @@
             background-repeat: no-repeat;
             background-position: center;
         }
+        footer {
+            opacity: 25%;
+            text-align: center;
+        }
     </style>
 </head>
