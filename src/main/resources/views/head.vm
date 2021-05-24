@@ -18,11 +18,8 @@
             padding: 10px;
         }
         .logo {
-            background-image: url(/public/logo.png);
-            height: 200px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
+            height: auto;
+            max-width: 100%;
         }
         footer {
             opacity: 25%;

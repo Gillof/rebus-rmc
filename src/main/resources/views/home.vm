@@ -3,7 +3,7 @@
 #parse("/views/head.vm")
 <body>
 <div class="container">
-    <div class="container logo"></div>
+    <img class="logo" src="/public/logo.jpg"/>
     <h1>Rally Monte Carl Rebussida<h1>
     #if( $loggedIn )
     <h2>Välkomna, ${data.team.name}!</h2>
