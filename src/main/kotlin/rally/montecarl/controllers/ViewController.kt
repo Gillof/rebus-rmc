@@ -106,7 +106,7 @@ class ViewController(
         teamsRepository.save(
             TeamEntity(
                 id = UUID.randomUUID(),
-                name = newTeamRequest.name,
+                name = newTeamRequest.name.trim(),
                 secret = newTeamRequest.secret,
                 role = newTeamRequest.role
             )

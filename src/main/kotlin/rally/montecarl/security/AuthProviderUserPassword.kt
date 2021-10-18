@@ -18,7 +18,7 @@ class AuthProviderUserPassword @Inject constructor(private val usersRepo: TeamsR
         authenticationRequest: AuthenticationRequest<*, *>
     ): Publisher<AuthenticationResponse> {
         return Flowable.create({ emitter ->
-            usersRepo.findByName(authenticationRequest.identity as String)
+            usersRepo.findByName((authenticationRequest.identity as String).trim())
                 ?.let { team -> if (team.secret == authenticationRequest.secret) team else null }
                 ?.let { team ->
                     UserDetails(
